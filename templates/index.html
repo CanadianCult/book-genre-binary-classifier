@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Genre Classifier</title>
+    <style>
+        body {
+            background-image: url("/static/arcaea wallpaper.jpeg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            color: black;
+            text-align: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            margin-top: 20px;
+        }
+
+        .input-label {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 400px;
+            height: 200px;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+
+        .output-section {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="welcome" class="welcome-message">
+        <p>Welcome to the Book Genre Classifier (本のジャンル分類へようこそ)!</p>
+        <button onclick="hideWelcome()">Continue (続く)</button>
+    </div>
+
+    <div id="content" class="input-section hidden">
+        <h1>Enter Book Description (本の説明を入力してください):</h1>
+        <textarea id="description" placeholder="Type your book description here (ここに本の説明を入力してください) ..." rows="5" cols="50"></textarea>
+        <br><br>
+        <button onclick="predictGenre()">Predict Genre (ジャンルを予測する)</button>
+    </div>
+
+    <div class="output-section" id="output">
+        <!-- The predicted genre will be displayed here -->
+    </div>
+
+    <script>
+        function hideWelcome() {
+            document.getElementById("welcome").classList.add("hidden");
+            document.getElementById("content").classList.remove("hidden");
+        }
+
+        function predictGenre() {
+            var description = document.getElementById("description").value;
+
+            // Make an AJAX request to Flask endpoint for genre prediction
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/predict", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById("output").innerText = "Predicted Genre: " + response.genre;
+                }
+            };
+            xhr.send(JSON.stringify({ description: description }));
+        }
+    </script>
+</body>
+</html>
+
