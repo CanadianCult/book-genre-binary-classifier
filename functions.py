@@ -26,7 +26,6 @@ vectorizer = TextVectorization(
 text_data = df['book_desc'].values  # Assuming 'summary' column contains the book summaries
 vectorizer.adapt(text_data)
 
-
 def test_vectorizer(text):
     a = clean_text(text)
     a = vectorizer(a)
