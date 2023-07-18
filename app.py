@@ -6,7 +6,7 @@ from functions import *
 app = Flask(__name__, static_url_path='/static')
 
 # Load the trained model
-model = tf.keras.models.load_model('book_model.h5')
+model = tf.keras.models.load_model('fiction_model.h5')
 
 @app.route('/')
 def home():
@@ -16,10 +16,10 @@ def home():
 def predict():
     data = request.get_json()
     description = data['description']
-    predicted_genre = reviewBook(model, description)
-    # Return the predicted genre as a JSON response
+    predicted_genre = predict_genre(model, description)
     response = {'genre': predicted_genre}
     return jsonify(response)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
+
