@@ -24,11 +24,6 @@
             margin-bottom: 20px;
         }
 
-        .language-option {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
         .input-section {
             margin-top: 20px;
         }
@@ -67,17 +62,11 @@
 <body>
     <div id="welcome" class="welcome-message">
         <p>Welcome to the Book Genre Classifier!</p>
-        <p class="language-option">Select Language:</p>
-        <label for="english">English</label>
-        <input type="radio" id="english" name="language" value="en" checked>
-        <label for="japanese">日本語 (Nihongo)</label>
-        <input type="radio" id="japanese" name="language" value="ja">
-        <br>
         <button onclick="hideWelcome()">Continue</button>
     </div>
 
     <div id="content" class="input-section hidden">
-        <h1 class="title">Enter Book Description:</h1>
+        <h1>Enter Book Description:</h1>
         <textarea id="description" placeholder="Type your book description here..." rows="5" cols="50"></textarea>
         <br><br>
         <button onclick="predictGenre()">Predict Genre</button>
@@ -88,30 +77,9 @@
     </div>
 
     <script>
-        var language = 'en';
-
-        function setLanguage(lang) {
-            language = lang;
-        }
-
         function hideWelcome() {
             document.getElementById("welcome").classList.add("hidden");
             document.getElementById("content").classList.remove("hidden");
-            updateText();
-        }
-
-        function updateText() {
-            if (language === 'en') {
-                document.title = 'Book Genre Classifier';
-                document.getElementById("content").getElementsByClassName("title")[0].innerText = 'Enter Book Description:';
-                document.getElementById("description").setAttribute("placeholder", 'Type your book description here...');
-                document.getElementById("output").innerText = '';
-            } else if (language === 'ja') {
-                document.title = '書籍ジャンル分類器';
-                document.getElementById("content").getElementsByClassName("title")[0].innerText = '書籍の説明を入力してください:';
-                document.getElementById("description").setAttribute("placeholder", 'ここに書籍の説明を入力してください...');
-                document.getElementById("output").innerText = '';
-            }
         }
 
         function predictGenre() {
@@ -129,17 +97,7 @@
             };
             xhr.send(JSON.stringify({ description: description }));
         }
-
-        // Event listener for language selection
-        var radios = document.getElementsByName("language");
-        for (var i = 0; i < radios.length; i++) {
-            radios[i].addEventListener("change", function() {
-                setLanguage(this.value);
-                updateText();
-            });
-        }
     </script>
 </body>
 </html>
-
 
